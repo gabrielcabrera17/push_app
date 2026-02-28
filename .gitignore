@@ -1,0 +1,59 @@
+# Flutter/Dart specific
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+flutter_*.log
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+
+# IDE - IntelliJ/Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Android Studio
+android/app/debug
+android/app/profile
+android/app/release
+
+# iOS/Flutter generated
+ios/Flutter/.last_build_id
+ios/Flutter/flutter_export_environment.sh
+ios/Pods/
+ios/.symlinks/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+
+# Obfuscation
+app.*.map.json
+
+# Symbolication
+app.*.symbols
+
+# Assets generados (opcional - considera si necesitas versionarlos)
+**/*@2x.png
+**/*@3x.png
+**/*_outlined@*.png
+**/*_rounded@*.png
+**/*_sharp@*.png
+
+# Archivos de sistema
+.DS_Store
+.bash_history
+app.lock
+*.log
+
+# Archivos JSON numerados (parecen temporales)
+[0-9]*.json
+
+
