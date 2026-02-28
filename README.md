@@ -1,6 +1,6 @@
 # push_app
 
-A new Flutter project.
+implementando notificaciones push por medio de firebase y bloc.
 
 ## Getting Started
 
