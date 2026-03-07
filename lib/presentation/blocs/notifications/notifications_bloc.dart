@@ -14,6 +14,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc() : super(NotificationsState()) {
      on<NotificationsStatusChanged>(_notificationStatusChanged);
 
+     _initialStatusCheck();
+
   }
 
   static Future<void> initializeFCM() async{
@@ -30,6 +32,22 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     );
   }
 
+  void _initialStatusCheck() async {
+    //con este setting yo puedo saber el estado actual
+    final settings = await messaging.getNotificationSettings();
+    add(NotificationsStatusChanged(settings.authorizationStatus));
+    _gitFCMToken();
+
+  }
+
+  void _gitFCMToken() async {
+    final settings = await messaging.getNotificationSettings();
+    if( state.status != AuthorizationStatus.authorized) return;
+
+    final token = await messaging.getToken();
+    print(token);
+  }
+
   void requestPermission() async {
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
@@ -42,6 +60,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     );
 
     add(NotificationsStatusChanged(settings.authorizationStatus));
+    _gitFCMToken();
   }
 
 }
