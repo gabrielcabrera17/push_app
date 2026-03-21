@@ -43,6 +43,7 @@ class _HomeView extends StatelessWidget {
 
         return  ListTile(
           title: Text(notification.title),
+          subtitle: Text(notification.body),
           leading: notification.imageUrl!.isNotEmpty 
             ? Image.network(notification.imageUrl ?? '')
             :SizedBox.shrink(),

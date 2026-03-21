@@ -56,10 +56,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   void _onPushMessageRecivied(NotificationReceived event, Emitter<NotificationsState> emit){
     emit(
       state.copyWith(
-        status: event.pushMessage
+        notifications: [event.pushMessage, ... state.notifications]
       )
     );
-    _getFCMToken();
   }
 
   void _initialStatusCheck() async {
@@ -96,7 +95,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     );
       
       //TODO: add de un nuevo evento
-      NotificationReceived(notification);
+     add(NotificationReceived(notification));
   }
 
   void _onForegroundMessage(){
