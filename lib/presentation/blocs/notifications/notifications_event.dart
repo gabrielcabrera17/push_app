@@ -13,3 +13,15 @@ class NotificationsStatusChanged extends NotificationsEvent {
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
+
+//todo 2: NotificationReceived # PushMessage
+
+class NotificationReceived extends NotificationsEvent{
+  final PushMessage pushMessage;
+
+  NotificationReceived(this.pushMessage);
+  
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}

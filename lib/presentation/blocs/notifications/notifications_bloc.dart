@@ -24,7 +24,13 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationsBloc() : super(NotificationsState()) {
+
      on<NotificationsStatusChanged>(_notificationStatusChanged);
+
+    //todo 3: crear el listener #_onPushMessageRecivied
+
+    on<NotificationReceived>(_onPushMessageRecivied);
+
     //Verificar estado de las aplicaciones
     _initialStatusCheck();
 
@@ -42,6 +48,15 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     emit(
       state.copyWith(
         status: event.status
+      )
+    );
+    _getFCMToken();
+  }
+
+  void _onPushMessageRecivied(NotificationReceived event, Emitter<NotificationsState> emit){
+    emit(
+      state.copyWith(
+        status: event.pushMessage
       )
     );
     _getFCMToken();
@@ -80,7 +95,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       : message.notification!.apple?.imageUrl
     );
       
-    print(notification);
+      //TODO: add de un nuevo evento
+      NotificationReceived(notification);
   }
 
   void _onForegroundMessage(){
