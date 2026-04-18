@@ -26,6 +26,39 @@ class LocalNotifications {
       //TODO
       //onDidReceiveBackgroundNotificationResponse: onDidReceiveBackgroundNotificationResponse
     );
+
+
+
+  }
+  //Para mostrar el local Notification debo pedir ciertos datos
+  static Future<void> showLocalNotification({
+    required int id,
+    String? title,
+    String? body,
+    String? data
+  }) async {
+    const androidDetails = AndroidNotificationDetails(
+      'channelId', 
+      'channelName',
+      //Si quieres agregar un sonido personalizado, ir en app>src>main>res>raw (crear directorio raw si no existe) y dentro alojar el sonido
+      playSound: true,
+      sound: RawResourceAndroidNotificationSound('notification'),
+      //configurar importancia de la notificación
+      importance: Importance.max,
+      priority: Priority.high
+
+    );
+  
+    // obtener los detalles de la notificación
+    const notificationDetails = NotificationDetails(
+      android: androidDetails,
+      // TODO IOS
+    );
+
+
+    final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.show(id:id, title: title, body: body, notificationDetails: notificationDetails, payload: data);
+
   }
 
 

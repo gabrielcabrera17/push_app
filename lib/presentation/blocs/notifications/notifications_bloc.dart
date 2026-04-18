@@ -71,9 +71,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   }
 
   void _getFCMToken() async {
-    final settings = await messaging.getNotificationSettings();
-    if( state.status != AuthorizationStatus.authorized) return;
-
+    
+    if ( state.status != AuthorizationStatus.authorized ) return;
+  
     final token = await messaging.getToken();
     print(token);
   }
@@ -95,8 +95,14 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       : message.notification!.apple?.imageUrl
     );
       
-      //TODO: add de un nuevo evento
-     add(NotificationReceived(notification));
+    LocalNotifications.showLocalNotification(
+      id: notification.messageId.hashCode,
+      title: notification.title,
+      body: notification.body,
+      data: notification.messageId,
+    );
+
+    add(NotificationReceived(notification));
   }
 
   void _onForegroundMessage(){
