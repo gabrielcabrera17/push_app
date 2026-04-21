@@ -24,7 +24,17 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  NotificationsBloc() : super(NotificationsState()) {
+  final Future<void> Function() requestLocalNotificationPermissions;
+  final void Function({
+    required int id,
+    String? title,
+    String? body,
+    String? data,
+  })? showLocalNotification;
+
+
+
+  NotificationsBloc({required this.requestLocalNotificationPermissions, required this.showLocalNotification}) : super(NotificationsState()) {
 
      on<NotificationsStatusChanged>(_notificationStatusChanged);
 
@@ -94,13 +104,16 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       ? message.notification!.android?.imageUrl 
       : message.notification!.apple?.imageUrl
     );
-      
-    LocalNotifications.showLocalNotification(
+    
+    if(showLocalNotification != null){
+      showLocalNotification!(
       id: notification.messageId.hashCode,
       title: notification.title,
       body: notification.body,
       data: notification.messageId,
     );
+    }
+  
 
     add(NotificationReceived(notification));
   }
@@ -120,7 +133,10 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       sound: true,
     );
     //Solicitar permiso a las local Notifications
-    await LocalNotifications.requestPermissionLocalNotifications();
+    if( requestLocalNotificationPermissions != null){
+      await LocalNotifications.requestPermissionLocalNotifications();
+    }
+    
 
     add(NotificationsStatusChanged(settings.authorizationStatus));
     _getFCMToken();
